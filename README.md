@@ -14,10 +14,10 @@ npm install express nodemon
 ```
 
 ### Scripts
-Run ```npm start``` to launch the server using nodemon.
+Run `npm start` to launch the server using nodemon.
 
 ### File structure
-- ./server.js: Contains the top level express object.
-- ./routes/: Contains all the api route logic
+- `./server.js`: Contains the top level express object.
+- `./routes/*`: Contains all the api route logic
   - Each file in the routes directory contains the individual api logic, which each uses the Router() method.
-  - ./server/index.js: Will import all the api route logics
+  - `./server/index.js`: Will import all the api route logics
