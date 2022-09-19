@@ -10,7 +10,6 @@ To run this file,, you need to have nodeJS v16.17 installed.
 Run the following code in to install express and nodemon
 ```
 npm install express nodemon
-
 ```
 
 ### Scripts
