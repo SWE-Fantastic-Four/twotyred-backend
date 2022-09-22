@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<body>
+    <div>
+        SignUp Form
+    </div>
+    <form action="/signUp" method="POST">
+        <label for='firstName'>Email</label>
+        <input type='text' name='email' value = <%=locals.email %>>
+        <br>
+        <label for='lastName'>Password</label>
+        <input type='text' name='password' value = <%=locals.password %>>
+        <br>
+        <button type='submit'>Submit</button>
+
+    </form>
+</body>
