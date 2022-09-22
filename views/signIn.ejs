@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<body>
+    <div>
+        SignIn Form
+    </div>
+    <form action="/signIn" method="POST">
+        <label for='email'>Email</label>
+        <input type='text' name='email' value = <%=locals.email %>>
+        <br>
+        <label for='password'>Password</label>
+        <input type='text' name='password' value = <%=locals.password %>>
+        <br>
+        <button type='submit'>Submit</button>
+    </form>
+    <div><%= locals.status || ""%></div>
+</body>

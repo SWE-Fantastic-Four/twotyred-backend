@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<body>
+    <div>Homepage/Logout Test</div>
+    <br>
+    <div><%= "User Email: " + locals.username || ""%></div>
+    <br>
+    <form action="/logOut" method="POST">
+        <button type='submit'>Logout</button>
+    </form>
+    <br>
+    <div><%=  locals.status || ""%></div>
+</body>
