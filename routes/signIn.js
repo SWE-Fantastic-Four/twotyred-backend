@@ -31,8 +31,32 @@ router.post("/", (req, res)=>{
             const {code, message} = err
             console.log(code);
             console.log(message);
+            /*
+            ------------
+            error codes
+            ------------
+            auth/invalid-email
+                Thrown if the email address is not valid.
+            auth/user-disabled
+                Thrown if the user corresponding to the given email has been disabled.
+            auth/user-not-found
+                Thrown if there is no user corresponding to the given email.
+            auth/wrong-password
+                Thrown if the password is invalid for the given email, or the account corresponding to the email does not have a password set.
+            */
+            var status;
+            switch (code){
+                case "auth/invalid-email":
+                    status = "Invalid email address entered. Please try again.";                    
+                case "auth/user-disabled":
+                    status = "Current user has been disabled. Sign in unsuccessful.";
+                case "auth/user-not-found":
+                    status = "User account not found. Please create an account.";
+                case "auth/wrong-password":
+                    status = "Incorrect Password! Please try again.";
+            }
 
-            res.render("signin", {email: email, password: password, status: "Incorrect Password! Try again"});
+            res.render("signin", {email: email, password: password, status: status});
         });
 })
 export default router;
