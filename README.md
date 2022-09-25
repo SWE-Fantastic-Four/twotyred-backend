@@ -4,7 +4,7 @@ This is the backend repo for the SC2006 SWE project.
 
 Stack: NodeJS, express
 
-To run this file,, you need to have nodeJS v16.17 installed.
+To run this file, you need to have nodeJS v16.17 installed.
 
 ### Quick Start:
 - Run the following code in to install the required dependencies
