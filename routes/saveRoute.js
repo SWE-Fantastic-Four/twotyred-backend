@@ -21,13 +21,11 @@ router.post("/", async (req, res) => {
   const likesNum = parseInt(likes);
   try {
     await save(userName, routesGeometry, distanceNum, timeNum, likesNum);
+    res.send("Route Successfully saved");
   } catch (error) {
-    if (error) {
-      res.send("Unable to save route")
-    }
-
+    console.log(error.message);
+    res.status(400).send("Unable to save route")
   }
-  res.send("Route Successfully saved");
 });
 
 export default router;
