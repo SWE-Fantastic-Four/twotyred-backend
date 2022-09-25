@@ -7,10 +7,12 @@ Stack: NodeJS, express
 To run this file,, you need to have nodeJS v16.17 installed.
 
 ### Quick Start:
-Run the following code in to install express and nodemon
+- Run the following code in to install express and nodemon
 ```
-npm install express nodemon
+npm install express cors firebase-admin
+npm install -D nodemon
 ```
+- Create a file named "firebase-config" in the root directory. Within it, create a file called "service-account.json". Paste the service account information into "service-account.json" file
 
 ### Scripts
 Run `npm start` to launch the server using nodemon.
