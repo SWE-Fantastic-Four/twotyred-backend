@@ -7,7 +7,7 @@ Stack: NodeJS, express
 To run this file,, you need to have nodeJS v16.17 installed.
 
 ### Quick Start:
-- Run the following code in to install express and nodemon
+- Run the following code in to install the required dependencies
 ```
 npm install express cors firebase-admin
 npm install -D nodemon
