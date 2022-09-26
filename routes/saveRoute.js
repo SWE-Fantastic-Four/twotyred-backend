@@ -20,10 +20,6 @@ const save = async (username, timestamp, routesGeometry, duration, time, likes) 
 router.post("/", async (req, res) => {
   const { username, routesGeometry, distance, duration, likes } = req.body;
   const timestamp = admin.firestore.FieldValue.serverTimestamp();
-  console.log(timestamp);
-  // const durationNum = parseFloat(duration);
-  // const timeNum = parseInt(time);
-  // const likesNum = parseInt(likes);
   try {
     await save(username, timestamp, routesGeometry, distance, duration, likes);
     res.status(200).send("Route Successfully saved");
