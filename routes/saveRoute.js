@@ -1,26 +1,32 @@
 import { Router } from "express";
-import { Routes } from "../firebase.js"
+import admin from "firebase-admin";
+import { Routes } from "../firebase.js";
+
+
 
 const router = Router();
 
-const save = async (userName, routesGeometry, distance, time, likes) => {
+const save = async (userName, timestamp, routesGeometry, duration, time, likes) => {
   await Routes.add({
     Username: userName,
+    Timestamp: timestamp,
     Geometry: routesGeometry,
-    Distance: distance,
-    Time: time,
+    Distance: duration,
+    Duration: time,
     Likes: likes
   });
 }
 
 
 router.post("/", async (req, res) => {
-  const { userName, routesGeometry, distance, time, likes } = req.body;
-  const distanceNum = parseFloat(distance);
-  const timeNum = parseInt(time);
-  const likesNum = parseInt(likes);
+  const { userName, routesGeometry, distance, duration, likes } = req.body;
+  const timestamp = admin.firestore.FieldValue.serverTimestamp();
+  console.log(timestamp);
+  // const durationNum = parseFloat(duration);
+  // const timeNum = parseInt(time);
+  // const likesNum = parseInt(likes);
   try {
-    await save(userName, routesGeometry, distanceNum, timeNum, likesNum);
+    await save(userName, timestamp, routesGeometry, distance, duration, likes);
     res.send("Route Successfully saved");
   } catch (error) {
     console.log(error.message);
