@@ -9,4 +9,4 @@ export const auth = admin.auth();
 export const db = admin.firestore();
 
 export const Routes = db.collection("Routes");
-
+export const User = db.collection("Users");
