@@ -32,7 +32,9 @@ router.post("/", async (req, res) => {
   try {
     await createNewUser(newUsername, userData);
     await deleteOldUser(oldUsername);
-    res.status(200).send("Username updated");
+    res.status(200).send(
+      {newUsername: newUsername}
+    );
   } catch (error) {
     console.log(error.message);
     res.status(400).send("Unable to update username")
