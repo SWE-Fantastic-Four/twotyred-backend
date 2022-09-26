@@ -9,7 +9,7 @@ const router = Router();
 router.use("/test", test);
 router.use("/routes/save", saveRoute);
 router.use("/user/create", createUser); // TODO: change to /user/:username/create
-router.use("/user/username", updateUsername);
+router.use("/user/update/username", updateUsername);
 
 
 

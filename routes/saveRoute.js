@@ -2,7 +2,7 @@ import { Router } from "express";
 import admin from "firebase-admin";
 import { Routes } from "../firebase.js";
 
-
+// Save new routes
 const router = Router();
 
 const save = async (username, timestamp, routesGeometry, duration, time, likes) => {
