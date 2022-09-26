@@ -26,7 +26,7 @@ const addToUser = async (username, routeGeometry) => {
     await User.doc(username).update({ Routes: routes })
   }
   else {
-    console.log("Unable to add to User")
+    throw new Error("Unable to add to User");
   }
 }
 
