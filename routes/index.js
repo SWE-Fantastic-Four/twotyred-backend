@@ -9,7 +9,7 @@ import userRoutes from "./userRoutes.js"
 const router = Router();
 router.use("/test", test);
 router.use("/routes/save", saveRoute);
-router.use("/user/create", createUser); // TODO: change to /user/:username/create
+router.use("/user/create", createUser);
 router.use("/user/update/username", updateUsername);
 router.use("/routes/user", userRoutes);
 

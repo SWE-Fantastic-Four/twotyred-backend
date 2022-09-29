@@ -49,6 +49,7 @@ router.get("/:username", async (req, res) => {
       } catch (error) {
         obtainGeometrySuccess = false;
         res.status(400).send(error.message);
+        return;
       }
     }))
   }
