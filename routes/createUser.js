@@ -3,7 +3,6 @@ import admin from "firebase-admin";
 import { User } from "../firebase.js";
 
 // Create new user
-// TODO: Insert image
 const router = Router();
 
 const createUser = async (username, timestamp, routes, favourites, totalTime, totalDistance) => {
