@@ -1,5 +1,4 @@
 import { Router } from "express";
-import admin from "firebase-admin";
 import { User } from "../firebase.js";
 
 // Update Username

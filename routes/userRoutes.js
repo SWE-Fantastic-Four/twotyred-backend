@@ -45,7 +45,7 @@ router.get("/:username", async (req, res) => {
     await Promise.all(routes.map(async (route) => {
       try {
         routeGeometry = await obtainRouteGeometry(route);
-        routeGeometryArray.push(routeGeometry);
+        routeGeometryArray.push({ id: route, routeGeometry: routeGeometry });
       } catch (error) {
         obtainGeometrySuccess = false;
         res.status(400).send(error.message);
@@ -55,8 +55,8 @@ router.get("/:username", async (req, res) => {
   }
 
   // Return routeGeometryArray in the 
-  if (obtainGeometrySuccess === true) {
-    res.status(200).json({routeGeometryArray: routeGeometryArray})
+  if (Array.isArray(routeGeometryArray) && routeGeometryArray.length && obtainGeometrySuccess === true) {
+    res.status(200).json({ routeGeometryArray: routeGeometryArray })
   }
 });
 

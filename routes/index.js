@@ -9,6 +9,7 @@ import unfavouriteRoute from "./unfavouriteRoute.js"
 import likeRoutes from "./likeRoutes.js"
 import unlikeRoutes from "./unlikeRoutes.js"
 import userRoutes from "./userRoutes.js"
+import dashboardRoutes from "./dashboardRoutes.js"
 
 
 const router = Router();
@@ -23,6 +24,7 @@ router.use("/routes/:routeId/unfavourite", unfavouriteRoute)
 router.use("/routes/like", likeRoutes);
 router.use("/routes/unlike", unlikeRoutes);
 router.use("/routes/user", userRoutes);
+router.use("/routes/dashboard", dashboardRoutes);
 
 
 export default router;
