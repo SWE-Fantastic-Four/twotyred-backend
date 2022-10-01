@@ -26,6 +26,7 @@ const obtainRouteGeometry = async (r) => {
   }
 }
 
+// TODO: Implement favourite routes
 router.get("/:username", async (req, res) => {
   const username = req.params.username;
   let routes, routeGeometry;

@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
     await createNewUser(newUsername, userData);
     await deleteOldUser(oldUsername);
     res.status(200).send(
-      {newUsername: newUsername}
+      { newUsername: newUsername }
     );
   } catch (error) {
     console.log(error.message);
