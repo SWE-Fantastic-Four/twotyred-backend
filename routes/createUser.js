@@ -6,25 +6,26 @@ import { User } from "../firebase.js";
 // TODO: Insert image
 const router = Router();
 
-const createUser = async (username, timestamp, routes, favourites, totalTime, totalDistance) => {
+const createUser = async (username, timestamp, routes, favourites, likes, totalTime, totalDistance) => {
   const user = User.doc(username)
   await user.set({
     Routes: routes,
     Favourites: favourites,
+    Likes: likes,
     TotalTime: totalTime,
     TotalDistance: totalDistance,
-    Timestamp: timestamp
+    Timestamp: timestamp,
   })
 }
 
 
 router.post("/", async (req, res) => {
-  const { username, routes, favourites, totalTime, totalDistance } = req.body;
+  const { username, routes, favourites, likes, totalTime, totalDistance } = req.body;
   const timestamp = admin.firestore.FieldValue.serverTimestamp();
   console.log(timestamp);
 
   try {
-    await createUser(username, timestamp, routes, favourites, totalTime, totalDistance);
+    await createUser(username, timestamp, routes, favourites, likes, totalTime, totalDistance);
     res.status(200).send("User info saved");
   } catch (error) {
     console.log(error.message);
