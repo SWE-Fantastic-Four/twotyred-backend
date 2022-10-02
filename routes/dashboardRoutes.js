@@ -8,8 +8,14 @@ router.get("/", async (req, res) => {
   let routes;
 
   try {
-    // Returns the last 20 routes
-    routes = await Routes.orderBy('Timestamp', 'desc').limit(20).get();
+    if (req.query.like) {
+      // Returns the 20 most liked routes
+      routes = await Routes.orderBy('Likes', 'desc').limit(20).get();
+    }
+    else {
+      // Returns the last 20 routes
+      routes = await Routes.orderBy('Timestamp', 'desc').limit(20).get();
+    }
   } catch (error) {
     res.status(400).send("Unable to obtain routes");
     throw new Error("Unable to obtain routes")

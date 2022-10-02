@@ -17,6 +17,7 @@ const addToRoute = async (username, timestamp, routeGeometry, distance, duration
   });
 }
 
+// TODO: Fix to add routeId instead of routeGeometry
 const addToUser = async (username, routeGeometry) => {
   const user = await User.doc(username).get();
   if (user.exists) {
