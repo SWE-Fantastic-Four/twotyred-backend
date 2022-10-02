@@ -3,11 +3,22 @@ import { User, Routes } from "../firebase.js";
 
 const router = Router();
 
-// Obtain array of routeIds
+// Obtain array of routeIds (All Routes)
 const obtainRoutes = async (username) => {
   const user = await User.doc(username).get();
   if (user.exists) {
     return user.data().Routes;
+  }
+  else {
+    throw new Error("User does not exist");
+  }
+}
+
+// Obtain array of routeIds (Favourite Routes)
+const obtainFavouriteRoutes = async (username) => {
+  const user = await User.doc(username).get();
+  if (user.exists) {
+    return user.data().Favourites;
   }
   else {
     throw new Error("User does not exist");
@@ -35,13 +46,20 @@ router.get("/:username", async (req, res) => {
 
   // Obtain array of routeIds
   try {
-    routes = await obtainRoutes(username);
+    if (req.query.favourite) {
+      // Obtain favourite routes
+      routes = await obtainFavouriteRoutes(username);
+    }
+    else {
+      // Obtain all routes
+      routes = await obtainRoutes(username);
+    }
   } catch (error) {
     res.status(400).send(error.message);
   }
 
   // Obtain routeGeometry from routeId
-  // Insert route geometry into routeGeometryArray
+  // Insert routeId and routeGeometry into routeGeometryArray
   if (Array.isArray(routes) && routes.length) {
     await Promise.all(routes.map(async (route) => {
       try {
@@ -55,7 +73,7 @@ router.get("/:username", async (req, res) => {
     }))
   }
 
-  // Return routeGeometryArray in the 
+  // Return routeGeometryArray in the response
   if (Array.isArray(routeGeometryArray) && routeGeometryArray.length && obtainGeometrySuccess === true) {
     res.status(200).json({ routeGeometryArray: routeGeometryArray })
   }
