@@ -12,10 +12,9 @@ exports.likeRoute = functions.https.onCall(async (data, context) => {
   // get refs for user doc and route doc
   const user = admin.firestore().collection("Users").doc(context.username);
   const route = admin.firestore().collection("Routes").doc(data.id); // how to get id of a route?
-  // how to tell likes to be an array?
   const doc = await user.get();
   // check that the user hasn't already liked the post
-  if (doc.data().Likes.inclues(data.id)) {
+  if (doc.data().Likes.includes(data.id)) {
     throw new functions.https.HttpsError("You can only like a post once");
   }
   await user.update({
