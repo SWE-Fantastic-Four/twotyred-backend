@@ -6,6 +6,7 @@ import { User } from "../firebase.js";
 // Save new routes
 const router = Router();
 
+// Add new route to Route collection
 const addToRoute = async (username, timestamp, routeGeometry, distance, duration, likes) => {
   await Routes.add({
     Username: username,
@@ -17,35 +18,37 @@ const addToRoute = async (username, timestamp, routeGeometry, distance, duration
   });
 }
 
-// TODO: Fix to add routeId instead of routeGeometry
-const addToUser = async (username, routeGeometry) => {
-  const user = await User.doc(username).get();
-  if (user.exists) {
-    const userData = user.data();
-    const routes = userData.Routes;
-    routes.push(routeGeometry);
-    await User.doc(username).update({ Routes: routes })
-  }
-  else {
-    throw new Error("Unable to add to User");
-  }
+// Obtain all routes from the specified user
+const addToUser = async (username, routeIdArray) => {
+  const routes = await Routes.where('Username', '==', `${username}`).get();
+  routes.forEach((route) => {
+    const routeId = route.id;
+    routeIdArray.push(routeId)
+  })
+  await User.doc(username).update({ Routes: routeIdArray })
 }
 
 
 router.post("/", async (req, res) => {
   const { username, routeGeometry, distance, duration, likes } = req.body;
   const timestamp = admin.firestore.FieldValue.serverTimestamp();
+  let routeIdArray = [];
+
+  // TODO: Use Promise.all to throw an error if any of the async tasks fail
   try {
     await addToRoute(username, timestamp, routeGeometry, distance, duration, likes);
-    await addToUser(username, routeGeometry);
+  } catch (error) {
+    res.status(400).send("Unable to save route")
+  }
+
+  try {
+    await addToUser(username, routeIdArray);
     res.status(200).send("Route Successfully saved");
   } catch (error) {
-    console.log(error.message);
     res.status(400).send("Unable to save route")
   }
 });
 
-// TODO: Need to delete inserted data if any async function fails
 
 export default router;
 
