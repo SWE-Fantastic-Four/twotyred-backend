@@ -55,6 +55,7 @@ router.get("/:username", async (req, res) => {
     }
   } catch (error) {
     res.status(400).send(error.message);
+    return;
   }
 
   // Obtain routeGeometry from routeId

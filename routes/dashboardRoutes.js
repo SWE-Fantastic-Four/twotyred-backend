@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
     }
   } catch (error) {
     res.status(400).send("Unable to obtain routes");
-    throw new Error("Unable to obtain routes")
+    return;
   }
   routes.forEach((route) => {
     routeGeometryArray.push({ id: route.id, routeGeometry: route.data().Geometry })
