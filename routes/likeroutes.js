@@ -1,27 +1,37 @@
-import admin from "firebase-admin";
+import { Router } from "express";
+import { Routes } from "../firebase.js";
 
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+const router = Router();
 
-exports.likeRoute = functions.https.onCall(async (data, context) => {
-  if (!context) {
-    throw new functions.https.HttpsError(
-      "you must be a registered user to like route"
-    );
+const incrementLike = async (routeId) => {
+  let count;
+  const likeCount = await Routes.doc(routeId).get();
+  if (!likeCount.exists) {
+    throw new Error("Unable to find route");
+  } else {
+    count = likeCount.data().Likes;
+    count = count + 1;
+    return count;
   }
-  // get refs for user doc and route doc
-  const user = admin.firestore().collection("Users").doc(context.username);
-  const route = admin.firestore().collection("Routes").doc(data.id); // how to get id of a route?
-  const doc = await user.get();
-  // check that the user hasn't already liked the post
-  if (doc.data().Likes.includes(data.id)) {
-    throw new functions.https.HttpsError("You can only like a post once");
+};
+router.post("/", async (req, res) => {
+  const { routeId } = req.body;
+  let newCount;
+  try {
+    newCount = await incrementLike(routeId);
   }
-  await user.update({
-    Likes: [...doc.data().Likes, data.id],
-  });
-
-  return route.update({
-    Likes: admin.firestore.FieldValue.increment(1),
-  });
+  catch (error) {
+    res.status(400).send("Error in liking");
+    return;
+  }
+  try {
+    await Routes.doc(routeId).update({
+      Likes: newCount,
+    });
+    res.status(200).send("Liking successful");
+  } catch (error) {
+    res.status(400).send("Liking unsuccessful");
+  }
 });
+
+export default router;
