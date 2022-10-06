@@ -4,7 +4,7 @@ import queryUser from "./queryUser.js"
 import saveRoute from "./saveRoute.js";
 import test from "./test.js";
 import updateUsername from "./updateUsername.js";
-// import planRoute from "./routePlanner.js"
+import planRoute from "./routePlanner.js"
 import dashboardRoutes from "./dashboardRoutes.js";
 import favouriteRoute from "./favouriteRoute.js";
 import likeRoutes from "./likeRoutes.js";
@@ -18,7 +18,7 @@ router.use("/test", test);
 router.use("/users/create", createUser);
 router.use("/users/query", queryUser)
 router.use("/users/update/username", updateUsername);
-// router.use("/planroute", planRoute);
+router.use("/planroute", planRoute);
 router.use("/routes/save", saveRoute);
 router.use("/routes/favourite", favouriteRoute);
 router.use("/routes/unfavourite", unfavouriteRoute)
