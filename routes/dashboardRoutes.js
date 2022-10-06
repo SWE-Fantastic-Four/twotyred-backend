@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
   let routes;
 
   try {
-    if (req.query.like) {
+    if (req.query.like === true) {
       // Returns the 20 most liked routes
       routes = await Routes.orderBy('Likes', 'desc').limit(20).get();
     }

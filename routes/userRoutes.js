@@ -45,7 +45,7 @@ router.get("/:username", async (req, res) => {
 
   // Obtain array of routeIds
   try {
-    if (req.query.favourite) {
+    if (req.query.favourite === true) {
       // Obtain favourite routes
       routes = await obtainFavouriteRoutes(username);
     }
