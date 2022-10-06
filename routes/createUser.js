@@ -1,5 +1,5 @@
+import { FieldValue } from "@google-cloud/firestore";
 import { Router } from "express";
-import admin from "firebase-admin";
 import { Users } from "../firebase.js";
 
 // Create new user
@@ -24,7 +24,7 @@ const createUser = async (username, timestamp, routes, favourites, likes, totalT
 
 router.post("/", async (req, res) => {
   const { username, routes, favourites, likes, totalTime, totalDistance } = req.body;
-  const timestamp = admin.firestore.FieldValue.serverTimestamp();
+  const timestamp = FieldValue.serverTimestamp();
 
   try {
     await createUser(username, timestamp, routes, favourites, likes, totalTime, totalDistance);
