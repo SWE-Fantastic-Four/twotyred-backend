@@ -1,6 +1,6 @@
-import { Router } from "express";
-import { Routes, User } from "../firebase.js";
 import { FieldValue } from "@google-cloud/firestore";
+import { Router } from "express";
+import { Routes, Users } from "../firebase.js";
 
 const router = Router();
 
@@ -16,7 +16,7 @@ function fsArrayInclude(fsArray, searchItem){
 
 router.post("/", async (req, res)=>{
 
-    const userRef = User.doc(req.body.user);
+    const userRef = Users.doc(req.body.user);
     const routeRef = Routes.doc(req.body.route);
 
     try{

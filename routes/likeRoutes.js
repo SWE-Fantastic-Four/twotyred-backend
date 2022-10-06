@@ -1,9 +1,21 @@
+import { FieldValue } from "@google-cloud/firestore";
 import { Router } from "express";
-import { Routes } from "../firebase.js";
+import { Routes, Users } from "../firebase.js";
 
 const router = Router();
 
-const incrementLike = async (routeId) => {
+function fsArrayInclude(fsArray, searchItem) {
+
+  for (let i = 0; i < fsArray.length; i++) {
+    if (fsArray[i] === searchItem) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// Increase the like count by one for unlikeRoutes function
+const incrementLikes = async (routeId) => {
   let count;
   const likeCount = await Routes.doc(routeId).get();
   if (!likeCount.exists) {
@@ -14,23 +26,55 @@ const incrementLike = async (routeId) => {
     return count;
   }
 };
-router.post("/", async (req, res) => {
-  const { routeId } = req.body;
-  let newCount;
-  try {
-    newCount = await incrementLike(routeId);
+
+const obtainLikes = async (username) => {
+  const user = await Users.doc(username).get()
+  if (!user.exists) {
+    throw new Error("User does not exist");
+  } else {
+    return user.data().Likes;
   }
-  catch (error) {
-    res.status(400).send("Error in liking");
+}
+
+router.post("/", async (req, res) => {
+  const { username, routeId } = req.body;
+  let newCount;
+  let likeRoutes = [];
+
+  // Returns newCount only if the route is not liked, 
+  try {
+    likeRoutes = await obtainLikes(username);
+    if (fsArrayInclude(likeRoutes, routeId)) {
+      throw new Error("Route already liked");
+    } else {
+      newCount = await incrementLikes(routeId)
+    }
+  } catch (error) {
+    res.status(400).send(error.message);
     return;
   }
+
+  // Updates Likes on Routes
   try {
     await Routes.doc(routeId).update({
       Likes: newCount,
     });
-    res.status(200).send("Liking successful");
   } catch (error) {
-    res.status(400).send("Liking unsuccessful");
+    res.status(400).send("Like Route unsuccessful");
+    return;
+  }
+
+  // Updates Likes on Users
+  // If fails, undo Likes increment on Routes
+  try {
+    likeRoutes = await Users.doc(username).update({ Likes: FieldValue.arrayUnion(req.body.routeId) })
+    res.status(200).send("Like Route successful")
+  } catch (error) {
+    await Routes.doc(routeId).update({
+      Likes: newCount - 1,
+    });
+    res.status(400).send(error.message);
+    return;
   }
 });
 

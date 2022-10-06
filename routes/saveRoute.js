@@ -1,53 +1,59 @@
+import { FieldValue } from "@google-cloud/firestore";
 import { Router } from "express";
-import admin from "firebase-admin";
-import { Routes } from "../firebase.js";
-import { User } from "../firebase.js";
+import { Routes, Users } from "../firebase.js";
 
 // Save new routes
 const router = Router();
 
+// Add new route to Route collection
+// Returns routeId
 const addToRoute = async (username, timestamp, routeGeometry, distance, duration, likes) => {
-  await Routes.add({
-    Username: username,
-    Timestamp: timestamp,
-    Geometry: routeGeometry,
-    Distance: distance,
-    Duration: duration,
-    Likes: likes
-  });
+  try {
+    const route = await Routes.add({
+      Username: username,
+      Timestamp: timestamp,
+      Geometry: routeGeometry,
+      Distance: distance,
+      Duration: duration,
+      Likes: likes
+    });
+    return route.id
+  } catch (error) {
+    throw new Error("Unable to add to Route")
+  }
 }
 
-const addToUser = async (username, routeGeometry) => {
-  const user = await User.doc(username).get();
-  if (user.exists) {
-    const userData = user.data();
-    const routes = userData.Routes;
-    routes.push(routeGeometry);
-    await User.doc(username).update({ Routes: routes })
+// Obtain all routes from the specified user, and add to User
+const addToUser = async (username, routeId) => {
+  try {
+    await Users.doc(username).update({ Routes: FieldValue.arrayUnion(routeId) })
   }
-  else {
-    throw new Error("Unable to add to User");
+  catch (error) {
+    throw new Error("Unable to add to User")
   }
 }
 
 
 router.post("/", async (req, res) => {
   const { username, routeGeometry, distance, duration, likes } = req.body;
-  const timestamp = admin.firestore.FieldValue.serverTimestamp();
+  const timestamp = FieldValue.serverTimestamp();
+  let routeId;
+
   try {
-    await addToRoute(username, timestamp, routeGeometry, distance, duration, likes);
-    await addToUser(username, routeGeometry);
-    res.status(200).send("Route Successfully saved");
+    routeId = await addToRoute(username, timestamp, routeGeometry, distance, duration, likes);
   } catch (error) {
-    console.log(error.message);
-    res.status(400).send("Unable to save route")
+    res.status(400).send(error.message)
+    return;
+  }
+
+  try {
+    await addToUser(username, routeId);
+    res.status(200).json({ routeId: routeId });
+  } catch (error) {
+    await Routes.doc(routeId).delete()
+    res.status(400).send(error.message)
   }
 });
 
-// TODO: Need to delete inserted data if any async function fails
 
 export default router;
-
-
-
-
