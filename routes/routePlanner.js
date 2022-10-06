@@ -29,7 +29,7 @@ async function oneMapRouting(start, end){
     const routeType =  "walk";
     const token =  await getOneMapAuth()
 
-    const fetchResponse = await fetch(`https://developers.onemap.sg/privateapi//routingsvc/route?start=${start}&end=${end}&routeType=${routeType}&token=${token}`);
+    const fetchResponse = await fetch(`https://developers.onemap.sg/privateapi/routingsvc/route?start=${start}&end=${end}&routeType=${routeType}&token=${token}`);
     const resJSON = await fetchResponse.json();
     const routeGeom = resJSON['route_geometry'];
     
