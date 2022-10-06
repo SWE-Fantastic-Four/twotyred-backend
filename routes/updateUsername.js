@@ -38,7 +38,6 @@ router.post("/", async (req, res) => {
   const { oldUsername, newUsername } = req.body;
   let userData;
   
-  // TODO: Use Promise.all to throw an error if any of the async tasks fail
   try {
     userData = await obtainUser(oldUsername);
   } catch (error) {

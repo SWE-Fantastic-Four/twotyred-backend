@@ -42,7 +42,6 @@ router.post("/", async (req, res) => {
   const timestamp = admin.firestore.FieldValue.serverTimestamp();
   let routeIdArray = [];
 
-  // TODO: Use Promise.all to throw an error if any of the async tasks fail
   try {
     await addToRoute(username, timestamp, routeGeometry, distance, duration, likes);
   } catch (error) {
