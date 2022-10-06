@@ -24,15 +24,11 @@ const addToRoute = async (username, timestamp, routeGeometry, distance, duration
 }
 
 // Obtain all routes from the specified user, and add to User
-const addToUser = async (username, routeIdArray) => {
-  const routes = await Routes.where('Username', '==', `${username}`).get();
-  routes.forEach((route) => {
-    const routeId = route.id;
-    routeIdArray.push(routeId)
-  })
+const addToUser = async (username, routeId) => {
   try {
-    await Users.doc(username).update({ Routes: routeIdArray })
-  } catch (error) {
+    await Users.doc(username).update({ Routes: FieldValue.arrayUnion(routeId) })
+  }
+  catch (error) {
     throw new Error("Unable to add to User")
   }
 }
@@ -41,7 +37,6 @@ const addToUser = async (username, routeIdArray) => {
 router.post("/", async (req, res) => {
   const { username, routeGeometry, distance, duration, likes } = req.body;
   const timestamp = FieldValue.serverTimestamp();
-  let routeIdArray = [];
   let routeId;
 
   try {
@@ -52,7 +47,7 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    await addToUser(username, routeIdArray);
+    await addToUser(username, routeId);
     res.status(200).json({ routeId: routeId });
   } catch (error) {
     await Routes.doc(routeId).delete()
