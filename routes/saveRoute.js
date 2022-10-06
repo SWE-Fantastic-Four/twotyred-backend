@@ -1,15 +1,15 @@
+import { FieldValue } from "@google-cloud/firestore";
 import { Router } from "express";
-import admin from "firebase-admin";
-import { Routes } from "../firebase.js";
-import { Users } from "../firebase.js";
+import { Routes, Users } from "../firebase.js";
 
 // Save new routes
 const router = Router();
 
 // Add new route to Route collection
+// Returns routeId
 const addToRoute = async (username, timestamp, routeGeometry, distance, duration, likes) => {
   try {
-    await Routes.add({
+    const route = await Routes.add({
       Username: username,
       Timestamp: timestamp,
       Geometry: routeGeometry,
@@ -17,6 +17,7 @@ const addToRoute = async (username, timestamp, routeGeometry, distance, duration
       Duration: duration,
       Likes: likes
     });
+    return route.id
   } catch (error) {
     throw new Error("Unable to add to Route")
   }
@@ -32,18 +33,19 @@ const addToUser = async (username, routeIdArray) => {
   try {
     await Users.doc(username).update({ Routes: routeIdArray })
   } catch (error) {
-    throw new Error ("Unable to add to User")
+    throw new Error("Unable to add to User")
   }
 }
 
 
 router.post("/", async (req, res) => {
   const { username, routeGeometry, distance, duration, likes } = req.body;
-  const timestamp = admin.firestore.FieldValue.serverTimestamp();
+  const timestamp = FieldValue.serverTimestamp();
   let routeIdArray = [];
+  let routeId;
 
   try {
-    await addToRoute(username, timestamp, routeGeometry, distance, duration, likes);
+    routeId = await addToRoute(username, timestamp, routeGeometry, distance, duration, likes);
   } catch (error) {
     res.status(400).send(error.message)
     return;
@@ -51,8 +53,9 @@ router.post("/", async (req, res) => {
 
   try {
     await addToUser(username, routeIdArray);
-    res.status(200).send("Route Successfully saved");
+    res.status(200).json({ routeId: routeId });
   } catch (error) {
+    await Routes.doc(routeId).delete()
     res.status(400).send(error.message)
   }
 });

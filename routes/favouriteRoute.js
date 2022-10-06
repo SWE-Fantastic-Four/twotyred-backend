@@ -1,6 +1,6 @@
+import { FieldValue } from "@google-cloud/firestore";
 import { Router } from "express";
 import { Routes, Users } from "../firebase.js";
-import { FieldValue } from "@google-cloud/firestore";
 
 const router = Router();
 
