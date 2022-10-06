@@ -1,16 +1,17 @@
 import { Router } from "express";
 import admin from "firebase-admin";
-import { User } from "../firebase.js";
+import { Users } from "../firebase.js";
 
 // Create new user
 const router = Router();
 
-const createUser = async (username, timestamp, routes, favourites, totalTime, totalDistance) => {
-  const user = User.doc(username)
+const createUser = async (username, timestamp, routes, favourites, likes, totalTime, totalDistance) => {
+  const user = Users.doc(username)
   try {
     await user.set({
       Routes: routes,
       Favourites: favourites,
+      Likes: likes,
       TotalTime: totalTime,
       TotalDistance: totalDistance,
       Timestamp: timestamp
@@ -22,11 +23,11 @@ const createUser = async (username, timestamp, routes, favourites, totalTime, to
 
 
 router.post("/", async (req, res) => {
-  const { username, routes, favourites, totalTime, totalDistance } = req.body;
+  const { username, routes, favourites, likes, totalTime, totalDistance } = req.body;
   const timestamp = admin.firestore.FieldValue.serverTimestamp();
 
   try {
-    await createUser(username, timestamp, routes, favourites, totalTime, totalDistance);
+    await createUser(username, timestamp, routes, favourites, likes, totalTime, totalDistance);
     res.status(200).send("User info saved");
   } catch (error) {
     res.status(400).send(error.message)

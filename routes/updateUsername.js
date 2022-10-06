@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { User } from "../firebase.js";
+import { Users } from "../firebase.js";
 
 // Update Username
 const router = Router();
 
 // Obtain user data
 const obtainUser = async (username) => {
-  const user = await User.doc(username).get();
+  const user = await Users.doc(username).get();
   if (user.exists) {
     return (user.data())
   }
@@ -17,7 +17,7 @@ const obtainUser = async (username) => {
 
 // Create new User
 const createNewUser = async (newUsername, userData) => {
-  const user = User.doc(newUsername);
+  const user = Users.doc(newUsername);
   try {
     await user.set(userData);
   } catch (error) {
@@ -28,7 +28,7 @@ const createNewUser = async (newUsername, userData) => {
 // Delete User
 const deleteUser = async (username) => {
   try {
-    await User.doc(username).delete();
+    await Users.doc(username).delete();
   } catch (error) {
     throw new Error("Unable to delete user")
   }

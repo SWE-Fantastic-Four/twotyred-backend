@@ -1,7 +1,7 @@
 import { Router } from "express";
 import admin from "firebase-admin";
 import { Routes } from "../firebase.js";
-import { User } from "../firebase.js";
+import { Users } from "../firebase.js";
 
 // Save new routes
 const router = Router();
@@ -30,7 +30,7 @@ const addToUser = async (username, routeIdArray) => {
     routeIdArray.push(routeId)
   })
   try {
-    await User.doc(username).update({ Routes: routeIdArray })
+    await Users.doc(username).update({ Routes: routeIdArray })
   } catch (error) {
     throw new Error ("Unable to add to User")
   }

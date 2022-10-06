@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { User, Routes } from "../firebase.js";
+import { Users, Routes } from "../firebase.js";
 
 const router = Router();
 
 // Obtain array of routeIds (All Routes)
 const obtainRoutes = async (username) => {
-  const user = await User.doc(username).get();
+  const user = await Users.doc(username).get();
   if (user.exists) {
     return user.data().Routes;
   }
@@ -16,7 +16,7 @@ const obtainRoutes = async (username) => {
 
 // Obtain array of routeIds (Favourite Routes)
 const obtainFavouriteRoutes = async (username) => {
-  const user = await User.doc(username).get();
+  const user = await Users.doc(username).get();
   if (user.exists) {
     return user.data().Favourites;
   }
