@@ -13,7 +13,7 @@ const createUser = async (username, timestamp, routes, favourites, totalTime, to
     Favourites: favourites,
     TotalTime: totalTime,
     TotalDistance: totalDistance,
-    Timestamp: timestamp
+    Timestamp: timestamp,
   })
 }
 
