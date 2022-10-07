@@ -8,11 +8,15 @@ router.post("/", async(req, res) => {
   const { lat, lng } = req.body;
   try {
     const token = await getOneMapAuth();
-    const fetchResponse = await fetch(`https://developers.onemap.sg/privateapi/commonsvc/revgeocode?location=${lat},${lng}&token=${token}`);
+    const fetchResponse = await fetch(`https://developers.onemap.sg/privateapi/commonsvc/revgeocode?location=${lat},${lng}&token=${token}&buffer=300`);
     let resJSON = await fetchResponse.json();
-    resJSON = resJSON["GeocodeInfo"][0];
+    resJSON = resJSON["GeocodeInfo"];
+    if (resJSON.length === 0) {
+      throw new Error("No locations found");
+    }
+    resJSON = resJSON[0]
     const resObj = {}
-    if ("BUILDINGNAME" in resJSON) {
+    if ("BUILDINGNAME" in resJSON && resJSON["BUILDINGNAME"] !== "null") {
       resObj["address"] = resJSON["BUILDINGNAME"]
     } else if ("ROAD" in resJSON) {
       resObj["address"] = resJSON["ROAD"]
