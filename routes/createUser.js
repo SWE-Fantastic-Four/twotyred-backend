@@ -7,7 +7,6 @@ const router = Router();
 
 const createUser = async (username, timestamp, routes, favourites, likes, totalTime, totalDistance) => {
   const user = Users.doc(username);
-  console.log(username, timestamp, routes, favourites, likes, totalTime, totalDistance);
   try {
     await user.set({
       Routes: routes,
