@@ -1,4 +1,4 @@
-import { FieldValue } from "@google-cloud/firestore";
+import { FieldValue } from "firebase-admin/firestore";
 import { Router } from "express";
 import { Routes, Users } from "../firebase.js";
 

@@ -1,4 +1,4 @@
-import { FieldValue } from "@google-cloud/firestore";
+import { FieldValue } from "firebase-admin/firestore"
 import { Router } from "express";
 import { Users } from "../firebase.js";
 
@@ -6,7 +6,8 @@ import { Users } from "../firebase.js";
 const router = Router();
 
 const createUser = async (username, timestamp, routes, favourites, likes, totalTime, totalDistance) => {
-  const user = Users.doc(username)
+  const user = Users.doc(username);
+  console.log(username, timestamp, routes, favourites, likes, totalTime, totalDistance);
   try {
     await user.set({
       Routes: routes,
