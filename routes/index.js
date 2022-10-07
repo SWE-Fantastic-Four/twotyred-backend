@@ -11,7 +11,7 @@ import likeRoutes from "./likeRoutes.js";
 import unfavouriteRoute from "./unfavouriteRoute.js";
 import unlikeRoutes from "./unlikeRoutes.js";
 import userRoutes from "./userRoutes.js";
-
+import geocode from "./geocode.js";
 
 const router = Router();
 router.use("/test", test);
@@ -26,6 +26,6 @@ router.use("/routes/like", likeRoutes);
 router.use("/routes/unlike", unlikeRoutes);
 router.use("/routes/user", userRoutes);
 router.use("/routes/dashboard", dashboardRoutes);
-
+router.use("/geocode", geocode);
 
 export default router;

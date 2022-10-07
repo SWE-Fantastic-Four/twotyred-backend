@@ -1,28 +1,7 @@
-import onemapCreds from "../onemap-config/onemapCred.json" assert {type:"json"}
 import fetch from 'node-fetch';
 import polyUtil from 'polyline-encoded';
-import {Router} from "express"
-
-
-
-async function getOneMapAuth(){
-    const options ={
-        method: 'POST',
-        headers: {
-            'Content-Type' : 'application/json'
-        },
-        body: JSON.stringify(onemapCreds),
-    }
-
-    try {
-        const fetchResponse = await fetch(`https://developers.onemap.sg/privateapi/auth/post/getToken`, options);
-        const resJSON = await fetchResponse.json()
-        const access_token = resJSON['access_token'];
-        return access_token;
-    } catch (err){
-        console.log(err);
-    }
-}
+import { Router } from "express"
+import getOneMapAuth from "../scripts/getOneMapAuth.js";
 
 async function oneMapRouting(start, end){
 
