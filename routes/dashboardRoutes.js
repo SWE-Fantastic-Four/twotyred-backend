@@ -4,11 +4,11 @@ import { Routes } from "../firebase.js";
 const router = Router();
 
 router.get("/", async (req, res) => {
-  let routeGeometryArray = [];
+  let routeInfoArray = [];
   let routes;
 
   try {
-    if (req.query.like === true) {
+    if (req.query.like === "true") {
       // Returns the 20 most liked routes
       routes = await Routes.orderBy('Likes', 'desc').limit(20).get();
     }
@@ -21,12 +21,10 @@ router.get("/", async (req, res) => {
     return;
   }
   routes.forEach((route) => {
-    routeGeometryArray.push({ id: route.id, routeGeometry: route.data().Geometry })
-    // console.log({ id: route.id, Geometry: route.data().Geometry});
+    routeInfoArray.push({ id: route.id, routeInfo: route.data() })
   });
-  // console.log(routeGeometryArray);
 
-  res.status(200).json({ routeGeometryArray: routeGeometryArray });
+  res.status(200).json({ routeInfoArray: routeInfoArray });
 
 });
 

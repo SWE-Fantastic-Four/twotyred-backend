@@ -1,17 +1,18 @@
 import { Router } from "express";
 import createUser from "./createUser.js";
-import queryUser from "./queryUser.js"
-import saveRoute from "./saveRoute.js";
-import test from "./test.js";
-import updateUsername from "./updateUsername.js";
-import planRoute from "./routePlanner.js"
 import dashboardRoutes from "./dashboardRoutes.js";
 import favouriteRoute from "./favouriteRoute.js";
+import geocode from "./geocode.js";
 import likeRoutes from "./likeRoutes.js";
+import queryRoute from "./queryRoute.js";
+import queryUser from "./queryUser.js";
+import planRoute from "./routePlanner.js";
+import saveRoute from "./saveRoute.js";
+import test from "./test.js";
 import unfavouriteRoute from "./unfavouriteRoute.js";
 import unlikeRoutes from "./unlikeRoutes.js";
+import updateUsername from "./updateUsername.js";
 import userRoutes from "./userRoutes.js";
-import geocode from "./geocode.js";
 
 const router = Router();
 router.use("/test", test);
@@ -19,6 +20,7 @@ router.use("/users/create", createUser);
 router.use("/users/query", queryUser)
 router.use("/users/update/username", updateUsername);
 router.use("/planroute", planRoute);
+router.use("/routes/query", queryRoute);
 router.use("/routes/save", saveRoute);
 router.use("/routes/favourite", favouriteRoute);
 router.use("/routes/unfavourite", unfavouriteRoute)

@@ -4,7 +4,7 @@ import { Users, Routes } from "../firebase.js";
 const router = Router();
 
 // Obtain array of routeIds (All Routes)
-const obtainRoutes = async (username) => {
+const obtainRouteId = async (username) => {
   const user = await Users.doc(username).get();
   if (user.exists) {
     return user.data().Routes;
@@ -15,7 +15,7 @@ const obtainRoutes = async (username) => {
 }
 
 // Obtain array of routeIds (Favourite Routes)
-const obtainFavouriteRoutes = async (username) => {
+const obtainFavouriteRouteId = async (username) => {
   const user = await Users.doc(username).get();
   if (user.exists) {
     return user.data().Favourites;
@@ -26,11 +26,10 @@ const obtainFavouriteRoutes = async (username) => {
 }
 
 // Obtain route geometry from routeId
-const obtainRouteGeometry = async (r) => {
+const obtainRouteInfo = async (r) => {
   const route = await Routes.doc(r).get();
   if (route.exists) {
-    // console.log(route.id, route.data().Geometry)
-    return route.data().Geometry;
+    return route.data();
   }
   else {
     throw new Error("Route does not exist");
@@ -39,19 +38,19 @@ const obtainRouteGeometry = async (r) => {
 
 router.get("/:username", async (req, res) => {
   const username = req.params.username;
-  let routes, routeGeometry;
-  let routeGeometryArray = [];
-  let obtainGeometrySuccess = true;
+  let routeIds, routeInfo;
+  let routeInfoArray = [];
+  let obtainInfoSuccess = true;
 
   // Obtain array of routeIds
   try {
     if (req.query.favourite === "true") {
       // Obtain favourite routes
-      routes = await obtainFavouriteRoutes(username);
+      routeIds = await obtainFavouriteRouteId(username);
     }
     else {
       // Obtain all routes
-      routes = await obtainRoutes(username);
+      routeIds = await obtainRouteId(username);
     }
   } catch (error) {
     res.status(400).send(error.message);
@@ -60,13 +59,13 @@ router.get("/:username", async (req, res) => {
 
   // Obtain routeGeometry from routeId
   // Insert routeId and routeGeometry into routeGeometryArray
-  if (Array.isArray(routes) && routes.length) {
-    await Promise.all(routes.map(async (route) => {
+  if (Array.isArray(routeIds) && routeIds.length) {
+    await Promise.all(routeIds.map(async (routeId) => {
       try {
-        routeGeometry = await obtainRouteGeometry(route);
-        routeGeometryArray.push({ id: route, routeGeometry: routeGeometry });
+        routeInfo = await obtainRouteInfo(routeId);
+        routeInfoArray.push({ id: routeId, routeInfo: routeInfo });
       } catch (error) {
-        obtainGeometrySuccess = false;
+        obtainInfoSuccess = false;
         res.status(400).send(error.message);
         return;
       }
@@ -74,12 +73,12 @@ router.get("/:username", async (req, res) => {
   }
   else {
     // If there are no routes
-    res.status(200).json({ routeGeometryArray: [] })
+    res.status(200).json({ routeInfoArray: [] })
   }
 
   // Return routeGeometryArray in the response
-  if (Array.isArray(routeGeometryArray) && routeGeometryArray.length && obtainGeometrySuccess === true) {
-    res.status(200).json({ routeGeometryArray: routeGeometryArray })
+  if (Array.isArray(routeInfoArray) && routeInfoArray.length && obtainInfoSuccess === true) {
+    res.status(200).json({ routeInfoArray: routeInfoArray })
   }
 });
 
