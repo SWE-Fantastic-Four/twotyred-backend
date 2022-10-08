@@ -7,7 +7,7 @@ const router = Router();
 
 // Add new route to Route collection
 // Returns routeId
-const addToRoute = async (username, timestamp, routeGeometry, distance, duration, likes) => {
+const addToRoute = async (username, timestamp, routeGeometry, distance, duration, likes, startPt, intermediatePts, endPt) => {
   try {
     const route = await Routes.add({
       Username: username,
@@ -15,7 +15,10 @@ const addToRoute = async (username, timestamp, routeGeometry, distance, duration
       Geometry: routeGeometry,
       Distance: distance,
       Duration: duration,
-      Likes: likes
+      Likes: likes,
+      StartPt: startPt,
+      IntermediatePts: intermediatePts,
+      EndPt: endPt
     });
     return route.id
   } catch (error) {
@@ -35,12 +38,12 @@ const addToUser = async (username, routeId) => {
 
 
 router.post("/", async (req, res) => {
-  const { username, routeGeometry, distance, duration, likes } = req.body;
+  const { username, routeGeometry, distance, duration, likes, startPt, intermediatePts, endPt } = req.body;
   const timestamp = FieldValue.serverTimestamp();
   let routeId;
 
   try {
-    routeId = await addToRoute(username, timestamp, routeGeometry, distance, duration, likes);
+    routeId = await addToRoute(username, timestamp, routeGeometry, distance, duration, likes, startPt, intermediatePts, endPt);
   } catch (error) {
     res.status(400).send(error.message)
     return;
