@@ -29,7 +29,7 @@ const obtainFavouriteRoutes = async (username) => {
 const obtainRouteGeometry = async (r) => {
   const route = await Routes.doc(r).get();
   if (route.exists) {
-    // console.log(route.data().Geometry)
+    // console.log(route.id, route.data().Geometry)
     return route.data().Geometry;
   }
   else {
@@ -45,7 +45,7 @@ router.get("/:username", async (req, res) => {
 
   // Obtain array of routeIds
   try {
-    if (req.query.favourite === true) {
+    if (req.query.favourite === "true") {
       // Obtain favourite routes
       routes = await obtainFavouriteRoutes(username);
     }
@@ -71,6 +71,10 @@ router.get("/:username", async (req, res) => {
         return;
       }
     }))
+  }
+  else {
+    // If there are no routes
+    res.status(200).json({ routeGeometryArray: [] })
   }
 
   // Return routeGeometryArray in the response
