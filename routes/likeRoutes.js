@@ -67,8 +67,8 @@ router.post("/", async (req, res) => {
   // Updates Likes on Users
   // If fails, undo Likes increment on Routes
   try {
-    likeRoutes = await Users.doc(username).update({ Likes: FieldValue.arrayUnion(req.body.routeId) })
-    res.status(200).send("Like Route successful")
+    likeRoutes = await Users.doc(username).update({ Likes: FieldValue.arrayUnion(routeId) })
+    res.status(200).json({ newLikeCount: newCount });
   } catch (error) {
     await Routes.doc(routeId).update({
       Likes: newCount - 1,
