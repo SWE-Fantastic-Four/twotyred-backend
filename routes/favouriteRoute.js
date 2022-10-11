@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
   try {
     await userRef.update({ Favourites: FieldValue.arrayUnion(req.body.route) })
   } catch (error) {
-    res.status(400).send("unsucessful: unable to add to favourites");
+    res.status(400).send("unsuccessful: unable to add to favourites");
     return;
   }
 
@@ -48,7 +48,7 @@ router.post("/", async (req, res) => {
     res.status(200).send("successful: route added to favourites");
   } catch (error) {
     await userRef.update({ Favourites: FieldValue.arrayRemove(req.body.route) })
-    res.status(400).send("unsucessful: unable to add to favourites");
+    res.status(400).send("unsuccessful: unable to add to favourites");
   }
 })
 
