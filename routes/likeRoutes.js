@@ -1,5 +1,5 @@
-import { FieldValue } from "firebase-admin/firestore";
 import { Router } from "express";
+import { FieldValue } from "firebase-admin/firestore";
 import { Routes, Users } from "../firebase.js";
 
 const router = Router();
@@ -58,6 +58,7 @@ router.post("/", async (req, res) => {
   try {
     await Routes.doc(routeId).update({
       Likes: newCount,
+      LikedUsers: FieldValue.arrayUnion(username)
     });
   } catch (error) {
     res.status(400).send("Like Route unsuccessful");
@@ -72,6 +73,7 @@ router.post("/", async (req, res) => {
   } catch (error) {
     await Routes.doc(routeId).update({
       Likes: newCount - 1,
+      LikedUsers: FieldValue.arrayRemove(username)
     });
     res.status(400).send(error.message);
     return;

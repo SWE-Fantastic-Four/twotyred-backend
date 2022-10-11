@@ -16,6 +16,8 @@ const addToRoute = async (username, timestamp, routeGeometry, distance, duration
       Distance: distance,
       Duration: duration,
       Likes: likes,
+      LikedUsers: [],
+      FavouritedUsers: [],
       StartPt: startPt,
       IntermediatePts: intermediatePts,
       EndPt: endPt
