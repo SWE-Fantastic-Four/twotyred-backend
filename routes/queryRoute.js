@@ -8,7 +8,7 @@ router.get("/:routeId", async (req, res) => {
   try {
     const route = await Routes.doc(routeId).get()
     if (!route.exists) {
-      throw new Error("User does not exist");
+      throw new Error("Route does not exist");
     } else {
       const routedata = route.data()
       res.status(200).send(routedata)

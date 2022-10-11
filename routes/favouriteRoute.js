@@ -1,5 +1,5 @@
-import { FieldValue } from "firebase-admin/firestore";
 import { Router } from "express";
+import { FieldValue } from "firebase-admin/firestore";
 import { Routes, Users } from "../firebase.js";
 
 const router = Router();
@@ -26,20 +26,29 @@ router.post("/", async (req, res) => {
       throw new Error("unsuccessful: invalid user or route");
     }
 
-    const userData = userSnapshot.data()
-    const userFav = userData.Favourites
+    const userData = userSnapshot.data();
+    const userFav = userData.Favourites;
 
     if (fsArrayInclude(userFav, req.body.route)) {
-      throw new Error("unsuccessful: route already saved by user")
+      throw new Error("unsuccessful: route already saved by user");
     }
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 
-    const updateUserRes = await userRef.update({ Favourites: FieldValue.arrayUnion(req.body.route) })
-    console.log(updateUserRes)
+  try {
+    await userRef.update({ Favourites: FieldValue.arrayUnion(req.body.route) })
+  } catch (error) {
+    res.status(400).send("unsucessful: unable to add to favourites");
+    return;
+  }
+
+  try {
+    await routeRef.update({ FavouritedUsers: FieldValue.arrayUnion(req.body.user) })
     res.status(200).send("successful: route added to favourites");
-
-  } catch (err) {
-    console.log(err);
-    res.status(400).send(err.message);
+  } catch (error) {
+    await userRef.update({ Favourites: FieldValue.arrayRemove(req.body.route) })
+    res.status(400).send("unsucessful: unable to add to favourites");
   }
 })
 
