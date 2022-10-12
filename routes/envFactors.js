@@ -107,7 +107,7 @@ router.post("/", async (req, res)=>{
     res.status(200).send((responseObj)) 
   }
   catch(err){
-    res.status(400).send(err.message);
+    res.status(400).send("Unsuccesful: Unable to get environment factors");
   }
 })
 
