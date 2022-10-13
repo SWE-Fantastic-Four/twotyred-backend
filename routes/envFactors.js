@@ -24,18 +24,26 @@ router.post("/", async (req, res)=>{
     
     //Date and Time
     const timeObj = new Date();
-    
-    const day = formatDate(timeObj.getDate());
+    const timeString = new Date().toLocaleString('en-GB', { dateStyle: "medium", timeStyle: "medium", timeZone: "Asia/Singapore"})
+    console.log(timeString);
+    const month = new Date().toLocaleString('en-US', { month: '2-digit' });
+    const [currDate, currTime] = timeString.split(", ");
+    const [day,, year] = currDate.split(" ");
+    const [hours, mins] = currTime.split(":")
 
-    const month = formatDate(timeObj.getMonth() +  1);
-    const year = timeObj.getFullYear();
-    const currDate = day + ' ' + toMonthName(timeObj.getMonth()+1) + ' ' + year
+    // const day = formatDate(timeObj.getDate());
+
+    // const month = formatDate(timeObj.getMonth() +  1);
+    // const year = timeObj.getFullYear();
+    // const currDate = day + ' ' + toMonthName(timeObj.getMonth()+1) + ' ' + year
     
-    const hours = formatDate(timeObj.getHours());
+    // const hours = formatDate(timeObj.getHours());
   
-    const mins = formatDate(timeObj.getMinutes());
+    // const mins = formatDate(timeObj.getMinutes());
 
-    const currTime = hours % 12 + ':' + mins + ' ' + (hours > 12 ? "PM" : "AM")
+    // const currTime = hours % 12 + ':' + mins + ' ' + (hours > 12 ? "PM" : "AM")
+
+    console.log(day, month, year, hours, mins);
     
 
     //Weather (location specific)
@@ -108,6 +116,7 @@ router.post("/", async (req, res)=>{
     res.status(200).send((responseObj)) 
   }
   catch(err){
+    console.error(err.message);
     res.status(400).send("Unsuccessful: Unable to get environment factors");
   }
 })
