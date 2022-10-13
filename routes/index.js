@@ -13,6 +13,7 @@ import unfavouriteRoute from "./unfavouriteRoute.js";
 import unlikeRoutes from "./unlikeRoutes.js";
 import updateUsername from "./updateUsername.js";
 import userRoutes from "./userRoutes.js";
+import envFactors from "./envFactors.js"
 
 const router = Router();
 router.use("/test", test);
@@ -29,5 +30,6 @@ router.use("/routes/unlike", unlikeRoutes);
 router.use("/routes/user", userRoutes);
 router.use("/routes/dashboard", dashboardRoutes);
 router.use("/geocode", geocode);
+router.use("/envfactors", envFactors);
 
 export default router;
