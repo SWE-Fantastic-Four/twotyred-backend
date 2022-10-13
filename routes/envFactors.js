@@ -1,4 +1,5 @@
-import {Router} from 'express'
+import { Router } from 'express'
+import fetch from 'node-fetch';
 
 const router = Router();
 
@@ -107,7 +108,7 @@ router.post("/", async (req, res)=>{
     res.status(200).send((responseObj)) 
   }
   catch(err){
-    res.status(400).send("Unsuccesful: Unable to get environment factors");
+    res.status(400).send("Unsuccessful: Unable to get environment factors");
   }
 })
 
