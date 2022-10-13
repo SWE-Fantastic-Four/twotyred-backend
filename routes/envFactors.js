@@ -3,19 +3,6 @@ import fetch from 'node-fetch';
 
 const router = Router();
 
-function toMonthName(monthNumber) {
-    const date = new Date();
-    date.setMonth(monthNumber - 1);
-  
-    return date.toLocaleString('en-US', {
-      month: 'short',
-    });
-}
-
-function formatDate(i){
-  return (i < 10 ? '0': '') + i
-}
-
 router.post("/", async (req, res)=>{
   try{
 
@@ -29,22 +16,7 @@ router.post("/", async (req, res)=>{
     const month = new Date().toLocaleString('en-US', { month: '2-digit' });
     const [currDate, currTime] = timeString.split(", ");
     const [day,, year] = currDate.split(" ");
-    const [hours, mins] = currTime.split(":")
-
-    // const day = formatDate(timeObj.getDate());
-
-    // const month = formatDate(timeObj.getMonth() +  1);
-    // const year = timeObj.getFullYear();
-    // const currDate = day + ' ' + toMonthName(timeObj.getMonth()+1) + ' ' + year
-    
-    // const hours = formatDate(timeObj.getHours());
-  
-    // const mins = formatDate(timeObj.getMinutes());
-
-    // const currTime = hours % 12 + ':' + mins + ' ' + (hours > 12 ? "PM" : "AM")
-
-    console.log(day, month, year, hours, mins);
-    
+    const [hours, mins] = currTime.split(":");
 
     //Weather (location specific)
     //API documentation: https://data.gov.sg/dataset/weather-forecast
