@@ -10,12 +10,13 @@ router.post("/", async (req, res)=>{
     const lng = req.body.lng 
     
     //Date and Time
-    const timeObj = new Date();
-    const timeString = new Date().toLocaleString('en-GB', { dateStyle: "medium", timeStyle: "medium", timeZone: "Asia/Singapore"})
+    const date = new Date();
+    const currDate = date.toLocaleDateString('en-GB', { dateStyle: "medium", timeZone: "Asia/Singapore"});
+    let currTime = date.toLocaleTimeString('en-GB', { timeStyle: "medium", timeZone: "Asia/Singapore"});
     const month = new Date().toLocaleString('en-US', { month: '2-digit' });
-    const [currDate, currTime] = timeString.split(", ");
     const [day,, year] = currDate.split(" ");
     const [hours, mins] = currTime.split(":");
+    currTime = date.toLocaleTimeString('en-US', {timeZone: 'Asia/Singapore', hour12: true, hour: 'numeric', minute: 'numeric'});
 
     //Weather (location specific)
     //API documentation: https://data.gov.sg/dataset/weather-forecast
