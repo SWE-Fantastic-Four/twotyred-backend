@@ -12,7 +12,6 @@ router.post("/", async (req, res)=>{
     //Date and Time
     const timeObj = new Date();
     const timeString = new Date().toLocaleString('en-GB', { dateStyle: "medium", timeStyle: "medium", timeZone: "Asia/Singapore"})
-    console.log(timeString);
     const month = new Date().toLocaleString('en-US', { month: '2-digit' });
     const [currDate, currTime] = timeString.split(", ");
     const [day,, year] = currDate.split(" ");
@@ -22,7 +21,6 @@ router.post("/", async (req, res)=>{
     //API documentation: https://data.gov.sg/dataset/weather-forecast
     var weatherStatus = "";
     const weatherURL = `https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date_time=${year}-${month}-${day}T${hours}%3A${mins}%3A00`;
-    console.log(weatherURL);
     const weatherRes = await fetch(weatherURL);
     const weatherJSON = await weatherRes.json();
     const regions = weatherJSON['area_metadata'];
@@ -47,7 +45,6 @@ router.post("/", async (req, res)=>{
     //API documentation: https://data.gov.sg/dataset/realtime-weather-readings
     var temperature = "";
     const temperatureURL = `https://api.data.gov.sg/v1/environment/air-temperature?date_time=${year}-${month}-${day}T${hours}%3A${mins}%3A00`;
-    console.log(temperatureURL);
     const temperatureRes = await fetch(temperatureURL);
     const temperatureJSON = await temperatureRes.json();
     const stations = temperatureJSON['metadata']['stations'];
