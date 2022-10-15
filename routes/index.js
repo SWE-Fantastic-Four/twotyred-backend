@@ -8,7 +8,7 @@ import queryRoute from "./queryRoute.js";
 import queryUser from "./queryUser.js";
 import planRoute from "./routePlanner.js";
 import saveRoute from "./saveRoute.js";
-import test from "./test.js";
+import health from "./health.js";
 import unfavouriteRoute from "./unfavouriteRoute.js";
 import unlikeRoutes from "./unlikeRoutes.js";
 import updateUsername from "./updateUsername.js";
@@ -16,7 +16,7 @@ import userRoutes from "./userRoutes.js";
 import envFactors from "./envFactors.js"
 
 const router = Router();
-router.use("/test", test);
+router.use("/", health);
 router.use("/users/create", createUser);
 router.use("/users/query", queryUser)
 router.use("/users/update/username", updateUsername);
