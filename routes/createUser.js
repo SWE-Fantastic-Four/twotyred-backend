@@ -21,10 +21,28 @@ const createUser = async (username, timestamp, routes, favourites, likes, totalT
   }
 }
 
+// Checks availability of username
+const checkUsername = async (username) => {
+  try {
+    const user = await Users.doc(username).get()
+    if (user.exists) {
+      throw new Error("username is already used")
+    }
+  } catch (error) {
+    throw new Error("username is already used")
+  }
+}
 
 router.post("/", async (req, res) => {
   const { username, routes, favourites, likes, totalTime, totalDistance } = req.body;
   const timestamp = FieldValue.serverTimestamp();
+
+  try {
+    await checkUsername(username);
+  } catch (error) {
+    res.status(400).send(error.message);
+    return;
+  }
 
   try {
     await createUser(username, timestamp, routes, favourites, likes, totalTime, totalDistance);
