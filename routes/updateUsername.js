@@ -21,7 +21,7 @@ const checkUsername = async (newUsername) => {
 const obtainUser = async (username) => {
   const user = await Users.doc(username).get();
   if (user.exists) {
-    return (user.data())
+    return user.data()
   }
   else {
     throw new Error("Unable to obtain user data")
@@ -110,10 +110,9 @@ router.post("/", async (req, res) => {
 
   try {
     await updateRouteInfo(userData, oldUsername, newUsername);
-    res.status(200).json({ oldUsername: oldUsername });
+    res.status(200).json({ oldUsername });
   } catch (error) {
     res.status(400).send(error.message);
-    return;
   }
 });
 
