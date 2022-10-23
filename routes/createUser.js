@@ -21,7 +21,7 @@ const createUser = async (username, timestamp, routes, favourites, likes, totalT
   }
 }
 
-// Checks availability of ussername
+// Checks availability of username
 const checkUsername = async (username) => {
   try {
     const user = await Users.doc(username).get()
