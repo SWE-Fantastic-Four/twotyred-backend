@@ -10,7 +10,6 @@ router.post("/", async (req, res) => {
     await userRef.update({ PhotoURL: photoUrl });
     res.status(200).send("successful: photoUrl updated");
   } catch (error) {
-    console.log(error.message);
     res.status(400).send("unsuccessful: unable to update photoUrl");
   }
 });
