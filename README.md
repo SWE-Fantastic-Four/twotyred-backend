@@ -1,10 +1,11 @@
 ## TwoTyred (Backend)
 
 This is the backend repo for our SC2006 SWE project, TwoTyred.
-
-Stack: NodeJS, express, firebase
-
 To run this file, you need to have Node.js `(Version 16.17.0)` installed.
+
+### Tech Stack
+1. [Express](https://expressjs.com/)
+2. [Firebase](https://firebase.google.com/)
 
 ### Quick Start:
 1. Run the following code in bash to install the required dependencies
