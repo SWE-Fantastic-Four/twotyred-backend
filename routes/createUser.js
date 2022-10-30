@@ -5,7 +5,7 @@ import { Users } from "../firebase.js";
 // Create new user
 const router = Router();
 
-const createUser = async (username, timestamp, routes, favourites, likes, totalTime, totalDistance) => {
+const createUser = async (username, timestamp, routes, favourites, likes, totalTime, totalDistance, photoUrl) => {
   const user = Users.doc(username);
   try {
     await user.set({
@@ -14,7 +14,8 @@ const createUser = async (username, timestamp, routes, favourites, likes, totalT
       Likes: likes,
       TotalTime: totalTime,
       TotalDistance: totalDistance,
-      Timestamp: timestamp
+      Timestamp: timestamp,
+      PhotoURL: photoUrl
     })
   } catch (error) {
     throw new Error("Unable to save user info")
@@ -34,7 +35,7 @@ const checkUsername = async (username) => {
 }
 
 router.post("/", async (req, res) => {
-  const { username, routes, favourites, likes, totalTime, totalDistance } = req.body;
+  const { username, routes, favourites, likes, totalTime, totalDistance, photoUrl } = req.body;
   const timestamp = FieldValue.serverTimestamp();
 
   try {
@@ -45,7 +46,7 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    await createUser(username, timestamp, routes, favourites, likes, totalTime, totalDistance);
+    await createUser(username, timestamp, routes, favourites, likes, totalTime, totalDistance, photoUrl);
     res.status(200).send("User info saved");
   } catch (error) {
     res.status(400).send(error.message)
