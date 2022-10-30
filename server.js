@@ -13,12 +13,33 @@ import cors from "cors";
 
 /* 
   server.js implements the Route Planning System control class.
-
   The key public methods are:
-  1. planRoute(), under ./routes/routePlanner.js which handles the planning of a route under the "Customise Route" option
-  2. saveRoute(), under ./routes/saveRoute.js which handles the saving of a route for a user
-  3. envFactors(), under ./routes/envFactors.js which queries the environmental factors of the current route
-  4. geocode(), under ./routes/geocode.js which handles reverse geocoding of coordinates to address
+  1. saveRoute(), under ./routes/saveRoute.js which handles the saving of a route for a user
+
+  @author chayhuixiang
+*/
+
+/* 
+  server.js implements the Route Factory control class.
+  The key public methods are:
+  1. getRoute(), under ./routes/routePlanner.js which handles the planning of a route under the "Customise Route" option
+  2. geocode(), under ./routes/geocode.js which handles reverse geocoding of coordinates to address
+
+  @author chayhuixiang
+*/
+
+/* 
+  server.js implements the Environmental Factors Facade control class.
+  The key public methods are:
+  1. envFactors(), under ./routes/envFactors.js which queries the environmental factors of the current route
+
+  @author chayhuixiang
+*/
+
+/* 
+  server.js implements the Information Handler control class.
+  The key public methods are:
+  1. updateInfo(), under ./routes/userRoutes.js and ./routes/dashboardRoutes.js which updates the Dashboard and Profile Page boundary classes of the routes to be displayed
 
   @author chayhuixiang
 */
