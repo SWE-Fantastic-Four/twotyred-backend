@@ -1,24 +1,27 @@
-## SWE Backend
+## TwoTyred (Backend)
 
-This is the backend repo for the SC2006 SWE project.
+This is the backend repo for our SC2006 SWE project, TwoTyred.
 
-Stack: NodeJS, express
+Stack: NodeJS, express, firebase
 
-To run this file, you need to have nodeJS v16.17 installed.
+To run this file, you need to have Node.js `(Version 16.17.0)` installed.
 
 ### Quick Start:
-- Run the following code in to install the required dependencies
+1. Run the following code in bash to install the required dependencies
 ```
-npm install express cors firebase-admin
-npm install -D nodemon
+npm install
 ```
-- Create a file named "firebase-config" in the root directory. Within it, create a file called "service-account.json". Paste the service account information into "service-account.json" file
+2. Create a folder named "firebase-config" in the root directory. Within it, create a file called "service-account.json". Paste the service account information into "service-account.json" file
+  
+3. Create a folder named "onemap-config" in the root directory. Within it, create a file called "onemapCred.json". Paste the OneMap credentials into "onemapCred.json" file
 
 ### Scripts
 Run `npm start` to launch the server using nodemon.
 
 ### File structure
-- `./server.js`: Contains the top level express object.
-- `./routes/*`: Contains all the api route logic
+- `server.js`: Contains the top level express object.
+- `firebase.js`: Contains firestore and firebase auth initialisations
+- `routes/*`: Contains all the api route logic
   - Each file in the routes directory contains the individual api logic, which each uses the Router() method.
-  - `./server/index.js`: Will import all the api route logics
+  - `routes/index.js`: Will import all the api route logics
+- `scripts/*`: Contains all helper functions
