@@ -21,7 +21,7 @@ router.use("/", health);
 router.use("/users/create", createUser);
 router.use("/users/query", queryUser)
 router.use("/users/update/username", updateUsername);
-router.use("/user/update/photo", updatePhoto);
+router.use("/users/update/photo", updatePhoto);
 router.use("/planroute", planRoute);
 router.use("/routes/query", queryRoute);
 router.use("/routes/save", saveRoute);
