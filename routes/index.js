@@ -12,6 +12,7 @@ import health from "./health.js";
 import unfavouriteRoute from "./unfavouriteRoute.js";
 import unlikeRoutes from "./unlikeRoutes.js";
 import updateUsername from "./updateUsername.js";
+import updatePhoto from "./updatePhoto.js";
 import userRoutes from "./userRoutes.js";
 import envFactors from "./envFactors.js"
 
@@ -20,6 +21,7 @@ router.use("/", health);
 router.use("/users/create", createUser);
 router.use("/users/query", queryUser)
 router.use("/users/update/username", updateUsername);
+router.use("/user/update/photo", updatePhoto);
 router.use("/planroute", planRoute);
 router.use("/routes/query", queryRoute);
 router.use("/routes/save", saveRoute);
