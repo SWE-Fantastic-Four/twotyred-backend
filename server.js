@@ -37,7 +37,7 @@ import cors from "cors";
 */
 
 /* 
-  server.js implements the Information Handler control class.
+  server.js implements the Route Information Subject control class.
   The key public methods are:
   1. updateInfo(), under ./routes/userRoutes.js and ./routes/dashboardRoutes.js which updates the Dashboard and Profile Page boundary classes of the routes to be displayed
 
