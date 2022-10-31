@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
         res.status(200).send({route_geometry: combinedEncode, duration: totalDuration, distance: totalDistance})
     }
     catch(err){
-        console.log(err.message);
+        console.error(err.message);
         res.status(400).send(err.message);
     }
 })
